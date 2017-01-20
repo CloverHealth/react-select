@@ -1361,10 +1361,6 @@ var Select = _react2['default'].createClass({
 			return;
 		}
 
-		if (event.target.tagName === 'INPUT') {
-			return;
-		}
-
 		// prevent default event handlers
 		event.stopPropagation();
 		event.preventDefault();
