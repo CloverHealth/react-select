@@ -1,5 +1,9 @@
 # React-Select
 
+## v1.0.0-beta11-clover-fork / 2017-01-19
+
+* upgraded react-input-autosize to 1.1.0 to avoid unknown prop error in React 15
+
 ## v1.0.0-beta11 / 2016-03-09
 
 * updated dependencies to allow use with React 15.x
