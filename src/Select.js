@@ -319,10 +319,6 @@ const Select = React.createClass({
 			return;
 		}
 
-		if (event.target.tagName === 'INPUT') {
-			return;
-		}
-
 		// prevent default event handlers
 		event.stopPropagation();
 		event.preventDefault();
