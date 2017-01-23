@@ -233,11 +233,11 @@ var Async = (function (_Component) {
 				ref: function ref(_ref) {
 					return _this3.select = _ref;
 				},
-				onChange: function onChange(newValues) {
-					if (_this3.props.value && newValues.length > _this3.props.value.length) {
+				onChange: function onChange(newValueOrValues) {
+					if (_this3.props.value && newValueOrValues && newValueOrValues.length > _this3.props.value.length) {
 						_this3.clearOptions();
 					}
-					_this3.props.onChange(newValues);
+					_this3.props.onChange(newValueOrValues);
 				}
 			};
 
@@ -332,6 +332,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+
 var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var _react2 = _interopRequireDefault(_react);
@@ -417,13 +419,17 @@ var Creatable = _react2['default'].createClass({
 		};
 	},
 
+	getInitialState: function getInitialState() {
+		return {
+			newOptions: []
+		};
+	},
+
 	createNewOption: function createNewOption() {
 		var _props = this.props;
 		var isValidNewOption = _props.isValidNewOption;
 		var newOptionCreator = _props.newOptionCreator;
 		var onNewOptionClick = _props.onNewOptionClick;
-		var _props$options = _props.options;
-		var options = _props$options === undefined ? [] : _props$options;
 		var shouldKeyDownEventCreateNewOption = _props.shouldKeyDownEventCreateNewOption;
 
 		if (isValidNewOption({ label: this.inputValue })) {
@@ -435,7 +441,7 @@ var Creatable = _react2['default'].createClass({
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
 				} else {
-					options.unshift(option);
+					this.setState({ newOptions: [option].concat(_toConsumableArray(this.state.newOptions)) });
 
 					this.select.selectValue(option);
 				}
@@ -447,7 +453,6 @@ var Creatable = _react2['default'].createClass({
 		var _props2 = this.props;
 		var filterOptions = _props2.filterOptions;
 		var isValidNewOption = _props2.isValidNewOption;
-		var options = _props2.options;
 		var promptTextCreator = _props2.promptTextCreator;
 
 		// TRICKY Check currently selected options as well.
@@ -557,10 +562,14 @@ var Creatable = _react2['default'].createClass({
 		var children = _props4$children === undefined ? defaultChildren : _props4$children;
 		var newOptionCreator = _props4.newOptionCreator;
 		var shouldKeyDownEventCreateNewOption = _props4.shouldKeyDownEventCreateNewOption;
+		var propOptions = _props4.options;
 
-		var restProps = _objectWithoutProperties(_props4, ['children', 'newOptionCreator', 'shouldKeyDownEventCreateNewOption']);
+		var restProps = _objectWithoutProperties(_props4, ['children', 'newOptionCreator', 'shouldKeyDownEventCreateNewOption', 'options']);
+
+		var options = [].concat(_toConsumableArray(this.state.newOptions), _toConsumableArray(propOptions));
 
 		var props = _extends({}, restProps, {
+			options: options,
 			allowCreate: true,
 			filterOptions: this.filterOptions,
 			menuRenderer: this.menuRenderer,
